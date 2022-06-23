@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -13,9 +14,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="@string/addContactName"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:singleLine="true"
+        android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="@+id/addContactPhone"
         app:layout_constraintEnd_toStartOf="@+id/addContactPhone"
         app:layout_constraintHorizontal_bias="0.5"
@@ -27,9 +31,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:ems="10"
-        android:hint="123-4567"
+        android:hint="@string/addContactPhone"
+        android:importantForAutofill="no"
         android:inputType="phone"
+        android:minHeight="48dp"
         android:singleLine="true"
+        android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="@+id/addContactButton"
         app:layout_constraintEnd_toStartOf="@id/addContactButton"
         app:layout_constraintStart_toEndOf="@+id/addContactName" />
@@ -38,10 +45,46 @@
         android:id="@+id/addContactButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="15dp"
-        android:text="Add"
+        android:text="@string/addContactButton"
+        app:layout_constraintBottom_toTopOf="@+id/addContactGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/addContactPhone"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/addContactDivider"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:drawable/divider_horizontal_textfield"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addContactGuideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/addContactGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_begin="100dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:descendantFocusability="afterDescendants"
+        android:fadeScrollbars="true"
+        android:isScrollContainer="true"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addContactDivider" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
