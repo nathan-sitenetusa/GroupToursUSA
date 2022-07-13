@@ -5,6 +5,8 @@
     <string name="addContactButton">Add</string>
     <string name="nameHintText">John Doe</string>
     <string name="phoneHintText">1234567890</string>
+    <string name="checkInButtonText">Check In</string>
+    <string name="clearButtonText">Clear</string>
 
     <string name="scrollableEntryText">Scrollable Names</string>
     <!-- TODO: Remove or change this placeholder text -->
