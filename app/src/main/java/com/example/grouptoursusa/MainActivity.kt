@@ -10,8 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val contacts: List<String> = listOf("Nathan", "Matt", "Mikkel", "Kevin", "Ebare", "Byron")
     }
 
 //    private val navHostFragment = supportFragmentManager.findFragmentById(R.id.groupFragment) as NavHostFragment
