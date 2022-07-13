@@ -9,4 +9,8 @@ class PersonRepository(private val personDAO: PersonDAO) {
     suspend fun addPerson(person: Person) {
         personDAO.addPerson(person)
     }
+
+    suspend fun checkIn(person: Person) {
+        personDAO.checkIn(person)
+    }
 }

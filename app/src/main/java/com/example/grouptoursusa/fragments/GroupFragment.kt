@@ -33,6 +33,12 @@ class GroupFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group, container, false)
 
+        //Check-in button
+        val checkInBtn = view.findViewById<Button>(R.id.checkInButton)
+        checkInBtn.setOnClickListener() {
+
+        }
+
         //RecyclerView
         val adapter = ContactAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
@@ -49,6 +55,19 @@ class GroupFragment : Fragment() {
         addBtn.setOnClickListener {
             addContact(view)
         }
+
+        val clearBtn = view.findViewById<Button>(R.id.clearListButton)
+        clearBtn.setOnClickListener() {
+            for(people in listOf(mPersonViewModel.allPeople.value)) {
+                if (people != null) {
+                    for(person in people) {
+                        checkInPerson(person, false)
+//                        Toast.makeText(requireContext(), "Person: " + person.name, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
         return view
     }
 
@@ -57,7 +76,7 @@ class GroupFragment : Fragment() {
         val phone = view.findViewById<EditText>(R.id.editTextPhone).text.toString()
 
         if (inputCheck(name, phone)) {
-            val person = Person(name, Integer.parseInt(phone))
+            val person = Person(0, name, phone.toLong(), false)
             mPersonViewModel.addPerson(person)
             Toast.makeText(requireContext(), "Contact added", Toast.LENGTH_SHORT).show()
 
@@ -71,6 +90,11 @@ class GroupFragment : Fragment() {
 
     private fun inputCheck(name: String, phoneNumber: String): Boolean {
         return !(TextUtils.isEmpty(name) || phoneNumber.isEmpty())
+    }
+
+    private fun checkInPerson(person : Person, checked : Boolean) {
+        person.checkedIn = checked
+        mPersonViewModel.checkIn(person)
     }
 
     companion object {
