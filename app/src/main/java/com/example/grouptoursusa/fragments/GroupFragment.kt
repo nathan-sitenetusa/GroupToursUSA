@@ -1,6 +1,7 @@
 package com.example.grouptoursusa.fragments
 
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -57,20 +58,32 @@ class GroupFragment : Fragment() {
         val phone = view.findViewById<EditText>(R.id.editTextPhone).text.toString()
 
         if (inputCheck(name, phone)) {
-            val person = Person(name, Integer.parseInt(phone))
+            val person = Person(name, phone.toLong(), false)
             mPersonViewModel.addPerson(person)
-            Toast.makeText(requireContext(), "Contact added", Toast.LENGTH_SHORT).show()
-
+            Toast.makeText(requireContext(), String.format("Contact %s added", name), Toast.LENGTH_SHORT).show()
             view.findViewById<EditText>(R.id.editTextPersonName).text.clear()
             view.findViewById<EditText>(R.id.editTextPhone).text.clear()
         } else {
-            Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(requireContext(), "Contact Not Added, please check all fields are valid", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun inputCheck(name: String, phoneNumber: String): Boolean {
-        return !(TextUtils.isEmpty(name) || phoneNumber.isEmpty())
+        val nameEmpty: Boolean = TextUtils.isEmpty(name)
+        val phoneMatch: Boolean = checkPhone(phoneNumber)
+        // if name empty, return false
+        if (nameEmpty)
+            return false
+        // if phone doesn't match, return false
+        if (!phoneMatch)
+            return false
+        // validation true
+        return true
+    }
+
+    private fun checkPhone(phone: String): Boolean {
+        var re = Regex("[0-9]{10,11}+")
+        return phone.matches(re)
     }
 
     companion object {

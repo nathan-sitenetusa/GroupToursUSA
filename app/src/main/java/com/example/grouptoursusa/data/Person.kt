@@ -6,5 +6,6 @@ import androidx.room.*
 data class Person (
     @PrimaryKey(autoGenerate = false)
     val name: String,
-    val number: Int) {
+    val number: Long,
+    val checkedIn: Boolean) {
 }
