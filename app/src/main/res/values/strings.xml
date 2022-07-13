@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Group Tours USA</string>
     <string name="addContactName">Name</string>
-    <string name="addContactPhone">123-4567</string>
+    <string name="addContactPhone">123-456-7890</string>
     <string name="addContactButton">Add</string>
+    <string name="nameHintText">John Doe</string>
+    <string name="phoneHintText">1234567890</string>
 
     <string name="scrollableEntryText">Scrollable Names</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
