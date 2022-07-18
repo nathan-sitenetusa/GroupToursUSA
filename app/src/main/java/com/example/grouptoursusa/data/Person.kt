@@ -8,4 +8,5 @@ data class Person(
     val id: Int,
     val name: String,
     val number: Long,
+    val notes: String?,
     var checkedIn: Boolean)

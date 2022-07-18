@@ -13,12 +13,16 @@
     <fragment
         android:id="@+id/contactFragment"
         android:name="com.example.grouptoursusa.fragments.ContactFragment"
-        android:label="fragment_contact"
-        tools:layout="@layout/fragment_contact" />
+        android:label="Member View"
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/action_contactFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+    </fragment>
     <fragment
         android:id="@+id/groupFragment"
         android:name="com.example.grouptoursusa.fragments.GroupFragment"
-        android:label="fragment_group"
+        android:label="All Group Members"
         tools:layout="@layout/fragment_group">
         <action
             android:id="@+id/viewContact"

@@ -29,4 +29,10 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
             repository.checkIn(person)
         }
     }
+
+    fun updatePerson(person: Person) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updatePerson(person)
+        }
+    }
 }

@@ -1,16 +1,21 @@
 package com.example.grouptoursusa.fragments
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.grouptoursusa.R
 import com.example.grouptoursusa.adapters.ContactAdapter
+import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
 
 class ContactFragment : Fragment() {
@@ -28,30 +33,44 @@ class ContactFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_contact, container, false)
 
-        //RecyclerView
-        val adapter = ContactAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         mPersonViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
-        mPersonViewModel.allPeople.observe(viewLifecycleOwner, Observer { person ->
-            adapter.setData(person)
-        })
+
+        val saveButton = view.findViewById<Button>(R.id.saveButton)
+
+        saveButton.setOnClickListener {
+            updatePerson()
+        }
 
         return view
     }
 
+    private fun updatePerson() {
+        val personName = view?.findViewById<EditText>(R.id.editPersonName)?.text.toString()
+        val personPhone = view?.findViewById<EditText>(R.id.editPersonPhone)?.text.toString()
+        val personNotes = view?.findViewById<EditText>(R.id.editPersonNotes)?.text.toString()
+
+        // if input check comes back bad, throw error
+        // update checkedIn to grab current value
+        if (inputCheck(personName, personPhone)) {
+            val person = Person(0, personName, personPhone.toLong(), personNotes, false)
+            mPersonViewModel.updatePerson(person)
+            Toast.makeText(requireContext(), "Person Updated", Toast.LENGTH_SHORT).show()
+
+            findNavController().navigate(R.id.action_contactFragment_to_groupFragment)
+        }
+        // bad input
+        else {
+            Toast.makeText(requireContext(), "Invalid input", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // check inputs
+    // don't need to check if notes are empty, notes can be anything
+    private fun inputCheck(personName: String, personPhone: String): Boolean {
+        return !(TextUtils.isEmpty(personName) && TextUtils.isEmpty(personPhone))
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ContactFragment().apply {

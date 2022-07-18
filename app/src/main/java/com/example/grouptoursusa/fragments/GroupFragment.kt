@@ -1,7 +1,6 @@
 package com.example.grouptoursusa.fragments
 
 import android.os.Bundle
-import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grouptoursusa.R
-import com.example.grouptoursusa.adapters.ContactAdapter
+import com.example.grouptoursusa.adapters.GroupAdapter
 import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
 
@@ -37,11 +36,11 @@ class GroupFragment : Fragment() {
         //Check-in button
         val checkInBtn = view.findViewById<Button>(R.id.checkInButton)
         checkInBtn.setOnClickListener() {
-
+            // TODO: set a state that changes whether the user is in a checking in state or not when clicking on users
         }
 
         //RecyclerView
-        val adapter = ContactAdapter()
+        val adapter = GroupAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -69,6 +68,8 @@ class GroupFragment : Fragment() {
             }
         }
 
+        // TODO: set an onClick event for person that when clicked, checks if in checkIn state, else navigate to fragment_contact
+
         return view
     }
 
@@ -77,7 +78,7 @@ class GroupFragment : Fragment() {
         val phone = view.findViewById<EditText>(R.id.editTextPhone).text.toString()
 
         if (inputCheck(name, phone)) {
-            val person = Person(0, name, phone.toLong(), false)
+            val person = Person(0, name, phone.toLong(), null, false)
             mPersonViewModel.addPerson(person)
             Toast.makeText(requireContext(), String.format("Contact %s added", name), Toast.LENGTH_SHORT).show()
             view.findViewById<EditText>(R.id.editTextPersonName).text.clear()
@@ -101,7 +102,7 @@ class GroupFragment : Fragment() {
     }
 
     private fun checkPhone(phone: String): Boolean {
-        var re = Regex("[0-9]{10,11}+")
+        val re = Regex("[0-9]{10,11}+")
         return phone.matches(re)
     }
 

@@ -12,6 +12,9 @@ interface PersonDAO {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun checkIn(person: Person)
 
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updatePerson(person: Person)
+
     @Query( "SELECT * FROM person_table ORDER BY name ASC" )
     fun getAllPeople(): LiveData<List<Person>>
 }
