@@ -27,6 +27,7 @@ class GroupAdapter: RecyclerView.Adapter<GroupAdapter.ContactViewHolder>() {
         var item = people[position]
         holder.itemView.findViewById<TextView>(R.id.nameText).text = item.name
         holder.itemView.findViewById<TextView>(R.id.phoneNumberText).text = item.number.toString()
+        holder.itemView.findViewById<TextView>(R.id.idText).text = item.id.toString()
         var layout = holder.itemView.findViewById<ConstraintLayout>(R.id.ConstraintLayout)
         layout.setOnClickListener() {
             synchronized(this) {
