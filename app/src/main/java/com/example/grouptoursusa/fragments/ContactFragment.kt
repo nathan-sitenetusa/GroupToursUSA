@@ -41,6 +41,12 @@ class ContactFragment : Fragment() {
             updatePerson()
         }
 
+        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+
+        deleteButton.setOnClickListener {
+            deletePerson()
+        }
+
         return view
     }
 
@@ -68,6 +74,10 @@ class ContactFragment : Fragment() {
     // don't need to check if notes are empty, notes can be anything
     private fun inputCheck(personName: String, personPhone: String): Boolean {
         return !(TextUtils.isEmpty(personName) && TextUtils.isEmpty(personPhone))
+    }
+
+    private fun deletePerson() {
+        //TODO: Delete Person
     }
 
     companion object {
