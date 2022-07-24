@@ -45,4 +45,10 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
     fun findPerson(personId: Int) : Person {
             return repository.findPerson(personId)
     }
+
+    fun resetDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.resetDatabase()
+        }
+    }
 }

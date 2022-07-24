@@ -25,4 +25,8 @@ class PersonRepository(private val personDAO: PersonDAO) {
     fun findPerson(personId : Int) : Person {
         return personDAO.findPerson(personId)
     }
+
+    fun resetDatabase() {
+        personDAO.resetDatabase()
+    }
 }

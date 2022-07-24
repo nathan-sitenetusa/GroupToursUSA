@@ -1,5 +1,6 @@
 package com.example.grouptoursusa.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ class ContactFragment : Fragment() {
 
     private val mPersonViewModel: PersonViewModel by activityViewModels()
     private var currentPersonId: Int = 0
+    private var currentPersonCheckedIn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,16 +37,26 @@ class ContactFragment : Fragment() {
 
         //save current person information
         val selectedContactId = navArgs<ContactFragmentArgs>().value.id
-        currentPersonId = selectedContactId
         val selectedContactName = navArgs<ContactFragmentArgs>().value.name
         val selectedContactNumber = navArgs<ContactFragmentArgs>().value.number
         val selectedContactNotes = navArgs<ContactFragmentArgs>().value.notes
-        val person = Person(selectedContactId, selectedContactName, selectedContactNumber.toLong(), selectedContactNotes, false)
+        val selectedContactCheckedIn = navArgs<ContactFragmentArgs>().value.checkedIn
+        val person = Person(selectedContactId, selectedContactName, selectedContactNumber.toLong(), selectedContactNotes, selectedContactCheckedIn)
+        currentPersonId = selectedContactId
+        currentPersonCheckedIn = selectedContactCheckedIn
 
         //hook up save button
         val saveButton = view.findViewById<Button>(R.id.saveButton)
         saveButton.setOnClickListener {
             updatePerson()
+        }
+
+        //hook up check in button
+        val checkInBtn = view.findViewById<Button>(R.id.checkInBtn)
+        updateCheckInButton(view, selectedContactCheckedIn)
+        checkInBtn.setOnClickListener {
+            currentPersonCheckedIn = !currentPersonCheckedIn
+            updateCheckInButton(view, currentPersonCheckedIn)
         }
 
         //hook up delete button
@@ -71,7 +83,7 @@ class ContactFragment : Fragment() {
         // if input check comes back bad, throw error
         // update checkedIn to grab current value
         if (inputCheck(personName, personPhone)) {
-            val person = Person(currentPersonId, personName, personPhone.toLong(), personNotes, false)
+            val person = Person(currentPersonId, personName, personPhone.toLong(), personNotes, currentPersonCheckedIn)
             mPersonViewModel.updatePerson(person)
             Toast.makeText(requireContext(), "Person Updated", Toast.LENGTH_SHORT).show()
 
@@ -92,6 +104,14 @@ class ContactFragment : Fragment() {
     private fun deletePerson(person: Person) {
         mPersonViewModel.deletePerson(person)
         findNavController().navigate(R.id.viewGroup)
+    }
+
+    private fun updateCheckInButton(view: View, checkedIn: Boolean) {
+        var checkInBtn = view.findViewById<Button>(R.id.checkInBtn)
+        if(checkedIn)
+            checkInBtn.setBackgroundColor(Color.GREEN)
+        else
+            checkInBtn.setBackgroundColor(Color.GRAY)
     }
 
     companion object {

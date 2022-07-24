@@ -36,6 +36,9 @@
         <argument android:name="notes"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="checkedIn"
+            app:argType="boolean" />
     </fragment>
 
 </navigation>

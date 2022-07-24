@@ -35,9 +35,9 @@ class GroupFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_group, container, false)
 
         //Check-in button
-        val checkInBtn = view.findViewById<Button>(R.id.checkInButton)
+        val checkInBtn = view.findViewById<Button>(R.id.resetButton)
         checkInBtn.setOnClickListener() {
-            // TODO: set a state that changes whether the user is in a checking in state or not when clicking on users
+            resetDatabase()
         }
 
         //RecyclerView
@@ -108,5 +108,9 @@ class GroupFragment : Fragment() {
     private fun checkInPerson(person : Person, checked : Boolean) {
         person.checkedIn = checked
         mPersonViewModel.checkIn(person)
+    }
+
+    private fun resetDatabase() {
+        mPersonViewModel.resetDatabase()
     }
 }

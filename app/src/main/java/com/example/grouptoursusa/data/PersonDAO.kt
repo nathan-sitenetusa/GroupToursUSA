@@ -23,4 +23,7 @@ interface PersonDAO {
 
     @Query( "SELECT * FROM person_table WHERE id = :personId")
     fun findPerson(personId : Int) : Person
+
+    @Query( "DELETE FROM person_table")
+    fun resetDatabase()
 }

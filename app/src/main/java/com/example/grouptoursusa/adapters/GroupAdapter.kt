@@ -32,19 +32,17 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
         holder.itemView.findViewById<TextView>(R.id.phoneNumberText).text = item.number.toString()
         holder.itemView.findViewById<TextView>(R.id.idText).text = item.id.toString()
         var layout = holder.itemView.findViewById<ConstraintLayout>(R.id.ConstraintLayout)
-        layout.setOnClickListener() {
-            synchronized(this) {
-                if (item.checkedIn) {
-                    layout.setBackgroundColor(Color.GREEN)
-                } else {
-                    layout.setBackgroundColor(Color.WHITE)
-                }
 
-            }
-            val action = GroupFragmentDirections.viewContact(item.name, item.number, item.notes, item.id)
+        layout.setOnClickListener() {
+            val action = GroupFragmentDirections.viewContact(item.name, item.number, item.notes, item.checkedIn, item.id)
             navController.navigate(action)
         }
 
+        if (item.checkedIn) {
+            layout.setBackgroundColor(Color.GREEN)
+        } else {
+            layout.setBackgroundColor(Color.WHITE)
+        }
     }
 
     override fun getItemCount(): Int {

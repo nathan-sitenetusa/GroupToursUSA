@@ -96,18 +96,18 @@
         android:layout_marginBottom="10dp"
         android:text="@string/clearButtonText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkInButton"
+        app:layout_constraintEnd_toStartOf="@+id/resetButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/checkInButton"
+        android:id="@+id/resetButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/checkInButtonText"
+        android:text="@string/resetButtonText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
