@@ -41,4 +41,8 @@ class PersonViewModel(application: Application) : AndroidViewModel(application) 
             repository.deletePerson(person)
         }
     }
+
+    fun findPerson(personId: Int) : Person {
+            return repository.findPerson(personId)
+    }
 }

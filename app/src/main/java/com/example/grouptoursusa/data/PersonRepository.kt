@@ -21,4 +21,8 @@ class PersonRepository(private val personDAO: PersonDAO) {
     suspend fun deletePerson(person: Person) {
         personDAO.deletePerson(person)
     }
+
+    fun findPerson(personId : Int) : Person {
+        return personDAO.findPerson(personId)
+    }
 }

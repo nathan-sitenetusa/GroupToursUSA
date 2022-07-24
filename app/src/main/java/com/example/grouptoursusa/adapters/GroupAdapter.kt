@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.NavController
 import com.example.grouptoursusa.R
 import com.example.grouptoursusa.data.Person
+import com.example.grouptoursusa.fragments.GroupFragmentDirections
 
-class GroupAdapter: RecyclerView.Adapter<GroupAdapter.ContactViewHolder>() {
+class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdapter.ContactViewHolder>() {
 
     private var people = emptyList<Person>()
+    private val navController = navController
 
     class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) { }
 
@@ -36,8 +39,12 @@ class GroupAdapter: RecyclerView.Adapter<GroupAdapter.ContactViewHolder>() {
                 } else {
                     layout.setBackgroundColor(Color.WHITE)
                 }
+
             }
+            val action = GroupFragmentDirections.viewContact(item.name, item.number, item.notes, item.id)
+            navController.navigate(action)
         }
+
     }
 
     override fun getItemCount(): Int {

@@ -4,15 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/groupFragment">
-    <fragment
-        android:id="@+id/contactFragment"
-        android:name="com.example.grouptoursusa.fragments.ContactFragment"
-        android:label="Member View"
-        tools:layout="@layout/fragment_contact" >
-        <action
-            android:id="@+id/action_contactFragment_to_groupFragment"
-            app:destination="@id/groupFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/groupFragment"
         android:name="com.example.grouptoursusa.fragments.GroupFragment"
@@ -20,6 +12,30 @@
         tools:layout="@layout/fragment_group">
         <action
             android:id="@+id/viewContact"
-            app:destination="@id/contactFragment" />
+            app:destination="@id/contactFragment" >
+            <argument
+                android:name="id"
+                android:defaultValue="0" />
+        </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.example.grouptoursusa.fragments.ContactFragment"
+        android:label="Member View"
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/viewGroup"
+            app:destination="@id/groupFragment" />
+        <argument android:name="id"
+            app:argType="integer" />
+        <argument android:name="name"
+            app:argType="string" />
+        <argument android:name="number"
+            app:argType="long" />
+        <argument android:name="notes"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
 </navigation>

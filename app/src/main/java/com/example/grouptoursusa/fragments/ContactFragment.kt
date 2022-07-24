@@ -8,19 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
 import com.example.grouptoursusa.R
-import com.example.grouptoursusa.adapters.ContactAdapter
 import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
 
 class ContactFragment : Fragment() {
 
-    private lateinit var mPersonViewModel: PersonViewModel
+    private val mPersonViewModel: PersonViewModel by activityViewModels()
+    private var currentPersonId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,19 +33,32 @@ class ContactFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_contact, container, false)
 
-        mPersonViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
+        //save current person information
+        val selectedContactId = navArgs<ContactFragmentArgs>().value.id
+        currentPersonId = selectedContactId
+        val selectedContactName = navArgs<ContactFragmentArgs>().value.name
+        val selectedContactNumber = navArgs<ContactFragmentArgs>().value.number
+        val selectedContactNotes = navArgs<ContactFragmentArgs>().value.notes
+        val person = Person(selectedContactId, selectedContactName, selectedContactNumber.toLong(), selectedContactNotes, false)
 
+        //hook up save button
         val saveButton = view.findViewById<Button>(R.id.saveButton)
-
         saveButton.setOnClickListener {
             updatePerson()
         }
 
+        //hook up delete button
         val deleteButton = view.findViewById<Button>(R.id.deleteButton)
-
         deleteButton.setOnClickListener {
-            deletePerson()
+            deletePerson(person)
         }
+
+//        currentPersonId = person.id
+
+        //set the UI values to the retrieved person
+        view.findViewById<TextView>(R.id.editPersonName).text = selectedContactName
+        view.findViewById<TextView>(R.id.editPersonPhone).text = selectedContactNumber.toString()
+        view.findViewById<TextView>(R.id.editPersonNotes).text = selectedContactNotes
 
         return view
     }
@@ -58,11 +71,11 @@ class ContactFragment : Fragment() {
         // if input check comes back bad, throw error
         // update checkedIn to grab current value
         if (inputCheck(personName, personPhone)) {
-            val person = Person(0, personName, personPhone.toLong(), personNotes, false)
+            val person = Person(currentPersonId, personName, personPhone.toLong(), personNotes, false)
             mPersonViewModel.updatePerson(person)
             Toast.makeText(requireContext(), "Person Updated", Toast.LENGTH_SHORT).show()
 
-            findNavController().navigate(R.id.action_contactFragment_to_groupFragment)
+            findNavController().navigate(R.id.viewGroup)
         }
         // bad input
         else {
@@ -76,8 +89,9 @@ class ContactFragment : Fragment() {
         return !(TextUtils.isEmpty(personName) && TextUtils.isEmpty(personPhone))
     }
 
-    private fun deletePerson() {
-        //TODO: Delete Person
+    private fun deletePerson(person: Person) {
+        mPersonViewModel.deletePerson(person)
+        findNavController().navigate(R.id.viewGroup)
     }
 
     companion object {

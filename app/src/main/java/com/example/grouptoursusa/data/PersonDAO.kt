@@ -15,9 +15,12 @@ interface PersonDAO {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun updatePerson(person: Person)
 
-    @Query( "SELECT * FROM person_table ORDER BY name ASC" )
+    @Query( "SELECT * FROM person_table ORDER BY id ASC" )
     fun getAllPeople(): LiveData<List<Person>>
 
     @Delete
     suspend fun deletePerson(person: Person)
+
+    @Query( "SELECT * FROM person_table WHERE id = :personId")
+    fun findPerson(personId : Int) : Person
 }

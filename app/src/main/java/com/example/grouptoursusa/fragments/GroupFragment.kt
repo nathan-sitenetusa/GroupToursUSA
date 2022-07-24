@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grouptoursusa.R
@@ -20,7 +21,7 @@ import com.example.grouptoursusa.data.PersonViewModel
 
 class GroupFragment : Fragment() {
 
-    private lateinit var mPersonViewModel: PersonViewModel
+    private val mPersonViewModel: PersonViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +41,11 @@ class GroupFragment : Fragment() {
         }
 
         //RecyclerView
-        val adapter = GroupAdapter()
+        val adapter = GroupAdapter(findNavController())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        mPersonViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
         mPersonViewModel.allPeople.observe(viewLifecycleOwner, Observer { person ->
             adapter.setData(person)
         })
@@ -62,7 +62,6 @@ class GroupFragment : Fragment() {
                 if (people != null) {
                     for(person in people) {
                         checkInPerson(person, false)
-//                        Toast.makeText(requireContext(), "Person: " + person.name, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -109,12 +108,5 @@ class GroupFragment : Fragment() {
     private fun checkInPerson(person : Person, checked : Boolean) {
         person.checkedIn = checked
         mPersonViewModel.checkIn(person)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            GroupFragment().apply {
-            }
     }
 }
