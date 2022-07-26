@@ -1,5 +1,7 @@
 package com.example.grouptoursusa.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
@@ -62,10 +64,19 @@ class ContactFragment : Fragment() {
         //hook up delete button
         val deleteButton = view.findViewById<Button>(R.id.deleteButton)
         deleteButton.setOnClickListener {
-            deletePerson(person)
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage(R.string.confirm_delete)
+                .setPositiveButton(R.string.confirm,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        deletePerson(person)
+                    })
+                .setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog, id ->
+                    // cancel
+                })
+            builder.create()
+            builder.show()
         }
-
-//        currentPersonId = person.id
 
         //set the UI values to the retrieved person
         view.findViewById<TextView>(R.id.editPersonName).text = selectedContactName
@@ -85,7 +96,6 @@ class ContactFragment : Fragment() {
         if (inputCheck(personName, personPhone)) {
             val person = Person(currentPersonId, personName, personPhone.toLong(), personNotes, currentPersonCheckedIn)
             mPersonViewModel.updatePerson(person)
-            Toast.makeText(requireContext(), "Person Updated", Toast.LENGTH_SHORT).show()
 
             findNavController().navigate(R.id.viewGroup)
         }
@@ -107,7 +117,7 @@ class ContactFragment : Fragment() {
     }
 
     private fun updateCheckInButton(view: View, checkedIn: Boolean) {
-        var checkInBtn = view.findViewById<Button>(R.id.checkInBtn)
+        val checkInBtn = view.findViewById<Button>(R.id.checkInBtn)
         if(checkedIn)
             checkInBtn.setBackgroundColor(Color.GREEN)
         else

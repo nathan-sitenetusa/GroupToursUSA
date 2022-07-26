@@ -1,5 +1,6 @@
 package com.example.grouptoursusa.adapters
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
         return ContactViewHolder(adapterLayout)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         var item = people[position]
         holder.itemView.findViewById<TextView>(R.id.nameText).text = item.name
@@ -39,9 +41,9 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
         }
 
         if (item.checkedIn) {
-            layout.setBackgroundColor(Color.GREEN)
+            layout.setBackgroundColor(R.color.green)
         } else {
-            layout.setBackgroundColor(Color.WHITE)
+            layout.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 

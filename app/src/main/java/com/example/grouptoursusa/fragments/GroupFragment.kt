@@ -1,5 +1,7 @@
 package com.example.grouptoursusa.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -35,9 +37,20 @@ class GroupFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_group, container, false)
 
         //Check-in button
-        val checkInBtn = view.findViewById<Button>(R.id.resetButton)
-        checkInBtn.setOnClickListener() {
-            resetDatabase()
+        val resetBtn = view.findViewById<Button>(R.id.resetButton)
+        resetBtn.setOnClickListener() {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage(R.string.confirm_clear_database)
+                .setPositiveButton(R.string.confirm,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        resetDatabase()
+                    })
+                .setNegativeButton("No",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // cancel clear database
+                    })
+            builder.create()
+            builder.show()
         }
 
         //RecyclerView
@@ -58,17 +71,25 @@ class GroupFragment : Fragment() {
 
         val clearBtn = view.findViewById<Button>(R.id.clearListButton)
         clearBtn.setOnClickListener() {
-            for(people in listOf(mPersonViewModel.allPeople.value)) {
-                if (people != null) {
-                    for(person in people) {
-                        checkInPerson(person, false)
-                    }
-                }
-            }
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage(R.string.confirm_reset)
+                .setPositiveButton(R.string.confirm,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        for(people in listOf(mPersonViewModel.allPeople.value)) {
+                            if (people != null) {
+                                for(person in people) {
+                                    checkInPerson(person, false)
+                                }
+                            }
+                        }
+                    })
+                .setNegativeButton("No",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // cancel clear check in
+                    })
+            builder.create()
+            builder.show()
         }
-
-        // TODO: set an onClick event for person that when clicked, checks if in checkIn state, else navigate to fragment_contact
-
         return view
     }
 
@@ -79,7 +100,6 @@ class GroupFragment : Fragment() {
         if (inputCheck(name, phone)) {
             val person = Person(0, name, phone.toLong(), null, false)
             mPersonViewModel.addPerson(person)
-            Toast.makeText(requireContext(), String.format("Contact %s added", name), Toast.LENGTH_SHORT).show()
             view.findViewById<EditText>(R.id.editTextPersonName).text.clear()
             view.findViewById<EditText>(R.id.editTextPhone).text.clear()
         } else {
