@@ -29,11 +29,11 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        var item = people[position]
+        val item = people[position]
         holder.itemView.findViewById<TextView>(R.id.nameText).text = item.name
         holder.itemView.findViewById<TextView>(R.id.phoneNumberText).text = item.number.toString()
         holder.itemView.findViewById<TextView>(R.id.idText).text = item.id.toString()
-        var layout = holder.itemView.findViewById<ConstraintLayout>(R.id.ConstraintLayout)
+        val layout = holder.itemView.findViewById<ConstraintLayout>(R.id.ConstraintLayout)
 
         layout.setOnClickListener() {
             val action = GroupFragmentDirections.viewContact(item.name, item.number, item.notes, item.checkedIn, item.id)
@@ -41,9 +41,11 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
         }
 
         if (item.checkedIn) {
-            layout.setBackgroundColor(R.color.green)
+            //layout.setBackgroundColor(R.color.green)
+            layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.GREEN)
         } else {
-            layout.setBackgroundColor(Color.TRANSPARENT)
+            //layout.setBackgroundColor(Color.TRANSPARENT)
+            layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.LTGRAY)
         }
     }
 

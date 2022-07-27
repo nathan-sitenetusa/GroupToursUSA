@@ -42,12 +42,11 @@ class GroupFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage(R.string.confirm_clear_database)
                 .setPositiveButton(R.string.confirm,
-                    DialogInterface.OnClickListener { dialog, id ->
+                    DialogInterface.OnClickListener { _,_ ->
                         resetDatabase()
                     })
                 .setNegativeButton("No",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // cancel clear database
+                    DialogInterface.OnClickListener { _,_ ->
                     })
             builder.create()
             builder.show()
@@ -74,18 +73,17 @@ class GroupFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage(R.string.confirm_reset)
                 .setPositiveButton(R.string.confirm,
-                    DialogInterface.OnClickListener { dialog, id ->
+                    DialogInterface.OnClickListener { _,_ ->
                         for(people in listOf(mPersonViewModel.allPeople.value)) {
                             if (people != null) {
                                 for(person in people) {
-                                    checkInPerson(person, false)
+                                    checkInPerson(person)
                                 }
                             }
                         }
                     })
                 .setNegativeButton("No",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // cancel clear check in
+                    DialogInterface.OnClickListener { _,_ ->
                     })
             builder.create()
             builder.show()
@@ -120,13 +118,14 @@ class GroupFragment : Fragment() {
         return true
     }
 
+    // currently, only check for 10 digits, not handling +1 or any other codes
     private fun checkPhone(phone: String): Boolean {
-        val re = Regex("[0-9]{10,11}+")
+        val re = Regex("[0-9]{10}+")
         return phone.matches(re)
     }
 
-    private fun checkInPerson(person : Person, checked : Boolean) {
-        person.checkedIn = checked
+    private fun checkInPerson(person : Person) {
+        person.checkedIn = false
         mPersonViewModel.checkIn(person)
     }
 

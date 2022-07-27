@@ -2,8 +2,11 @@ package com.example.grouptoursusa.fragments
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +22,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.grouptoursusa.R
 import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
+import org.w3c.dom.Text
+import java.lang.Exception
 
 class ContactFragment : Fragment() {
 
@@ -43,7 +48,7 @@ class ContactFragment : Fragment() {
         val selectedContactNumber = navArgs<ContactFragmentArgs>().value.number
         val selectedContactNotes = navArgs<ContactFragmentArgs>().value.notes
         val selectedContactCheckedIn = navArgs<ContactFragmentArgs>().value.checkedIn
-        val person = Person(selectedContactId, selectedContactName, selectedContactNumber.toLong(), selectedContactNotes, selectedContactCheckedIn)
+        val person = Person(selectedContactId, selectedContactName, selectedContactNumber, selectedContactNotes, selectedContactCheckedIn)
         currentPersonId = selectedContactId
         currentPersonCheckedIn = selectedContactCheckedIn
 
@@ -67,15 +72,24 @@ class ContactFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage(R.string.confirm_delete)
                 .setPositiveButton(R.string.confirm,
-                    DialogInterface.OnClickListener { dialog, id ->
+                    DialogInterface.OnClickListener { _,_ ->
                         deletePerson(person)
                     })
                 .setNegativeButton("No",
-                DialogInterface.OnClickListener { dialog, id ->
-                    // cancel
+                DialogInterface.OnClickListener { _,_ ->
                 })
             builder.create()
             builder.show()
+        }
+
+        val callBtn = view.findViewById<Button>(R.id.callBtn)
+        callBtn.setOnClickListener {
+            call(it)
+        }
+
+        val textBtn = view.findViewById<Button>(R.id.txtBtn)
+        textBtn.setOnClickListener {
+            text(it)
         }
 
         //set the UI values to the retrieved person
@@ -124,10 +138,28 @@ class ContactFragment : Fragment() {
             checkInBtn.setBackgroundColor(Color.GRAY)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ContactFragment().apply {
-            }
+    private fun call(view: View) {
+        val dialIntent = Intent(Intent.ACTION_DIAL)
+        dialIntent.data = Uri.parse("tel:" + navArgs<ContactFragmentArgs>().value.number.toString())
+        startActivity(dialIntent)
     }
+
+    private fun text(view: View) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setData(Uri.parse("sms:"))
+        intent.putExtra("address", navArgs<ContactFragmentArgs>().value.number.toString())
+        intent.putExtra("sms_body", "Time to get back to the bus!")
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Unable to send text", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+//    companion object {
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            ContactFragment().apply {
+//            }
+//    }
 }
