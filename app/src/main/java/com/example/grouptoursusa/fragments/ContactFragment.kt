@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.telephony.SmsManager
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,7 +21,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.grouptoursusa.R
 import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
-import org.w3c.dom.Text
 import java.lang.Exception
 
 class ContactFragment : Fragment() {
@@ -30,10 +28,6 @@ class ContactFragment : Fragment() {
     private val mPersonViewModel: PersonViewModel by activityViewModels()
     private var currentPersonId: Int = 0
     private var currentPersonCheckedIn: Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -141,12 +135,16 @@ class ContactFragment : Fragment() {
     private fun call(view: View) {
         val dialIntent = Intent(Intent.ACTION_DIAL)
         dialIntent.data = Uri.parse("tel:" + navArgs<ContactFragmentArgs>().value.number.toString())
-        startActivity(dialIntent)
+        try {
+            startActivity(dialIntent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Unable to open call", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun text(view: View) {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setData(Uri.parse("sms:"))
+        intent.data = Uri.parse("sms:")
         intent.putExtra("address", navArgs<ContactFragmentArgs>().value.number.toString())
         intent.putExtra("sms_body", "Time to get back to the bus!")
         try {

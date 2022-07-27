@@ -40,13 +40,10 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
             navController.navigate(action)
         }
 
-        if (item.checkedIn) {
-            //layout.setBackgroundColor(R.color.green)
+        if (item.checkedIn)
             layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.GREEN)
-        } else {
-            //layout.setBackgroundColor(Color.TRANSPARENT)
+        else
             layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.LTGRAY)
-        }
     }
 
     override fun getItemCount(): Int {
