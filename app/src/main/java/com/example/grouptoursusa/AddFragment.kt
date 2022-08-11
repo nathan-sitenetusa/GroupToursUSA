@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
+import com.example.grouptoursusa.fragments.GroupFragmentDirections
 
 class AddFragment : Fragment() {
 
@@ -24,21 +27,25 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val saveButton = view.findViewById<Button>(R.id.saveButton)
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add, container, false)
+        val view = inflater.inflate(R.layout.fragment_add, container, false)
+
+        val saveButton = view.findViewById<Button>(R.id.saveButton)
+        saveButton.setOnClickListener {
+            addContact(view)
+        }
+        return view
     }
 
     private fun addContact(view: View) {
         val name = view.findViewById<EditText>(R.id.editTextPersonName).text.toString()
         val phone = view.findViewById<EditText>(R.id.editTextPhone).text.toString()
-
+        val notes = view.findViewById<EditText>(R.id.editPersonNotes).text.toString()
         if (inputCheck(name, phone)) {
-            val person = Person(0, name, phone.toLong(), null, false)
+            val person = Person(0, name, phone.toLong(), notes, false)
             mPersonViewModel.addPerson(person)
-            view.findViewById<EditText>(R.id.editTextPersonName).text.clear()
-            view.findViewById<EditText>(R.id.editTextPhone).text.clear()
+            // navigate back to group listing
+            findNavController().navigate(R.id.groupFragment)
         } else {
             Toast.makeText(requireContext(), "Contact Not Added, please check all fields are valid", Toast.LENGTH_SHORT).show()
         }
