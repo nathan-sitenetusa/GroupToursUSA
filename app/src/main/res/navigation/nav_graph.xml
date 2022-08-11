@@ -17,6 +17,9 @@
                 android:name="id"
                 android:defaultValue="0" />
         </action>
+        <action
+            android:id="@+id/action_groupFragment_to_addFragment"
+            app:destination="@id/addFragment" />
     </fragment>
 
     <fragment
@@ -39,6 +42,15 @@
         <argument
             android:name="checkedIn"
             app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.example.grouptoursusa.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
     </fragment>
 
 </navigation>

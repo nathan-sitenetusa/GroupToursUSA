@@ -40,10 +40,17 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
             navController.navigate(action)
         }
 
+        // TODO: On Long click, check in
+
         if (item.checkedIn)
             layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.GREEN)
         else
             layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.LTGRAY)
+    }
+
+    fun navToAddFragment() {
+        val action = GroupFragmentDirections.actionGroupFragmentToAddFragment()
+        navController.navigate(action)
     }
 
     override fun getItemCount(): Int {

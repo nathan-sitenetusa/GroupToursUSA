@@ -37,20 +37,20 @@ class GroupFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_group, container, false)
 
         //Check-in button
-        val resetBtn = view.findViewById<Button>(R.id.resetButton)
-        resetBtn.setOnClickListener() {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage(R.string.confirm_clear_database)
-                .setPositiveButton(R.string.confirm,
-                    DialogInterface.OnClickListener { _,_ ->
-                        resetDatabase()
-                    })
-                .setNegativeButton("No",
-                    DialogInterface.OnClickListener { _,_ ->
-                    })
-            builder.create()
-            builder.show()
-        }
+//        val resetBtn = view.findViewById<Button>(R.id.resetButton)
+//        resetBtn.setOnClickListener() {
+//            val builder = AlertDialog.Builder(requireContext())
+//            builder.setMessage(R.string.confirm_clear_database)
+//                .setPositiveButton(R.string.confirm,
+//                    DialogInterface.OnClickListener { _,_ ->
+//                        resetDatabase()
+//                    })
+//                .setNegativeButton("No",
+//                    DialogInterface.OnClickListener { _,_ ->
+//                    })
+//            builder.create()
+//            builder.show()
+//        }
 
         //RecyclerView
         val adapter = GroupAdapter(findNavController())
@@ -62,10 +62,10 @@ class GroupFragment : Fragment() {
             adapter.setData(person)
         })
 
-        val addBtn = view.findViewById<Button>(R.id.addButton)
+        val addBtn = view.findViewById<Button>(R.id.addPersonButton)
 
         addBtn.setOnClickListener {
-            addContact(view)
+            GroupAdapter(findNavController()).navToAddFragment()
         }
 
         val clearBtn = view.findViewById<Button>(R.id.clearListButton)
@@ -123,13 +123,11 @@ class GroupFragment : Fragment() {
         val re = Regex("[0-9]{10}+")
         return phone.matches(re)
     }
-
     private fun checkInPerson(person : Person) {
         person.checkedIn = false
         mPersonViewModel.checkIn(person)
     }
-
-    private fun resetDatabase() {
-        mPersonViewModel.resetDatabase()
-    }
+//    private fun resetDatabase() {
+//        mPersonViewModel.resetDatabase()
+//    }
 }

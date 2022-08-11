@@ -7,54 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GroupFragment">
 
-    <EditText
-        android:id="@+id/editTextPersonName"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:hint="@string/addContactName"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextPhone"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:hint="@string/addContactPhone"
-        android:importantForAutofill="no"
-        android:inputType="phone"
-        android:singleLine="true"
-        android:textColorHint="#78909C"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName"
-        tools:ignore="TextContrastCheck" />
-
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/addPersonButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp"
         android:text="@string/addContactButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+        android:layout_margin="10dp"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:id="@+id/divider"
@@ -62,7 +23,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/addButton"
+        app:layout_constraintTop_toBottomOf="@id/addPersonButton"
         tools:ignore="MissingConstraints" />
 
     <View
