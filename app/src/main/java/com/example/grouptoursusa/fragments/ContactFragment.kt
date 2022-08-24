@@ -153,11 +153,4 @@ class ContactFragment : Fragment() {
             Toast.makeText(requireContext(), "Unable to send text", Toast.LENGTH_SHORT).show()
         }
     }
-
-//    companion object {
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            ContactFragment().apply {
-//            }
-//    }
 }

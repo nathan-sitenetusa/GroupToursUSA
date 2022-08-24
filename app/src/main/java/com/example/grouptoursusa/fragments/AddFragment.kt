@@ -1,4 +1,4 @@
-package com.example.grouptoursusa
+package com.example.grouptoursusa.fragments
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,9 +11,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.grouptoursusa.R
 import com.example.grouptoursusa.data.Person
 import com.example.grouptoursusa.data.PersonViewModel
-import com.example.grouptoursusa.fragments.GroupFragmentDirections
 
 class AddFragment : Fragment() {
 
@@ -57,7 +57,7 @@ class AddFragment : Fragment() {
         // if name empty, return false
         if (nameEmpty)
             return false
-        // if phone doesn't match, return false
+        // if phone isn't valid, return false
         if (!phoneMatch)
             return false
         // validation true

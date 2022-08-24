@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
 import com.example.grouptoursusa.R
@@ -18,7 +19,7 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
     private var people = emptyList<Person>()
     private val navController = navController
 
-    class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) { }
+    class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
@@ -40,7 +41,11 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
             navController.navigate(action)
         }
 
-        // TODO: On Long click, check in
+        layout.setOnLongClickListener {
+            val action = GroupFragmentDirections.actionGroupFragmentToUtilityFragment(item.id, item.name, item.number, item.notes, !item.checkedIn)
+            navController.navigate(action)
+            true
+        }
 
         if (item.checkedIn)
             layout.findViewById<TextView>(R.id.nameText).setTextColor(Color.GREEN)
@@ -53,10 +58,16 @@ class GroupAdapter(navController: NavController): RecyclerView.Adapter<GroupAdap
         navController.navigate(action)
     }
 
+    fun navToAdvancedFragment() {
+        val action = GroupFragmentDirections.actionGroupFragmentToAdvancedFragment()
+        navController.navigate(action)
+    }
+
     override fun getItemCount(): Int {
         return people.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(people: List<Person>) {
         this.people = people
         notifyDataSetChanged()

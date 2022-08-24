@@ -20,6 +20,12 @@
         <action
             android:id="@+id/action_groupFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_groupFragment_to_advancedFragment"
+            app:destination="@id/advancedFragment" />
+        <action
+            android:id="@+id/action_groupFragment_to_utilityFragment"
+            app:destination="@id/utilityFragment" />
     </fragment>
 
     <fragment
@@ -45,12 +51,47 @@
     </fragment>
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.example.grouptoursusa.AddFragment"
+        android:name="com.example.grouptoursusa.fragments.AddFragment"
         android:label="fragment_add"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_groupFragment"
             app:destination="@id/groupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/advancedFragment"
+        android:name="com.example.grouptoursusa.fragments.AdvancedFragment"
+        android:label="fragment_advanced"
+        tools:layout="@layout/fragment_advanced" >
+        <action
+            android:id="@+id/action_advancedFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/utilityFragment"
+        android:name="com.example.grouptoursusa.fragments.UtilityFragment"
+        android:label="fragment_utility"
+        tools:layout="@layout/fragment_utility" >
+        <action
+            android:id="@+id/action_utilityFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="phone"
+            app:argType="long" />
+        <argument
+            android:name="notes"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="checkedIn"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
 </navigation>
