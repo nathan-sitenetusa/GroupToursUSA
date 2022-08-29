@@ -78,12 +78,12 @@ class ContactFragment : Fragment() {
 
         val callBtn = view.findViewById<Button>(R.id.callBtn)
         callBtn.setOnClickListener {
-            call(it)
+            callContact()
         }
 
         val textBtn = view.findViewById<Button>(R.id.txtBtn)
         textBtn.setOnClickListener {
-            text(it)
+            textContact()
         }
 
         //set the UI values to the retrieved person
@@ -132,7 +132,7 @@ class ContactFragment : Fragment() {
             checkInBtn.setBackgroundColor(Color.GRAY)
     }
 
-    private fun call(view: View) {
+    private fun callContact() {
         val dialIntent = Intent(Intent.ACTION_DIAL)
         dialIntent.data = Uri.parse("tel:" + navArgs<ContactFragmentArgs>().value.number.toString())
         try {
@@ -142,7 +142,7 @@ class ContactFragment : Fragment() {
         }
     }
 
-    private fun text(view: View) {
+    private fun textContact() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse("sms:")
         intent.putExtra("address", navArgs<ContactFragmentArgs>().value.number.toString())
